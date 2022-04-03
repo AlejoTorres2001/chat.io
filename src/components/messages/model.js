@@ -12,11 +12,11 @@ const messageSchema = new Schema({
   },
   global: Boolean,
   createdAt: Date,
-  toUsers: [{
+  chat:{
     type: Schema.ObjectId,
-    ref: "User",
-    required:false,
-  }],
+    ref:"Chat",
+    required: false,
+  }
 });
 
 const model = mongoose.model("message", messageSchema);

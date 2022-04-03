@@ -6,11 +6,23 @@ function addMessage(messageText, fromUserId, isGlobal = true, toUsers = []) {
     user: fromUserId,
     global: isGlobal,
     toUsers: toUsers,
-    date: new Date(),
+    createdAt: new Date(),
   };
   return store.addMessage(messageData);
+}
+function deleteMessage(messageId) {
+  return store.deleteMessage(messageId);
+}
+function getMessages(){
+  return store.getMessages();
+}
+function getUserMessages(userId){
+  return store.getUserMessages(userId);
 }
 
 module.exports = {
   addMessage,
+  deleteMessage,
+  getMessages,
+  getUserMessages,
 };
