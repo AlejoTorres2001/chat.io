@@ -12,7 +12,7 @@ router.post("/", function (req, res) {
   const userName = req.body.name;
   addUser(userName)
     .then((user) => {
-      res.send("usuario" + userName + "creado");
+      res.send(user);
     })
     .catch((err) => {
       res.send(err);
@@ -23,7 +23,7 @@ router.post("/update", function (req, res) {
   const newUserData = req.body.newUserData;
   updateUser(id, newUserData)
     .then((user) => {
-      res.send("usuario" + id + "actualizado");
+      res.send(user);
     })
     .catch((err) => {
       res.send(err);
@@ -33,7 +33,7 @@ router.delete("/delete", function (req, res) {
   const id = req.body.id;
   DeleteUser(id)
     .then((user) => {
-      res.send("usuario" + id + "eliminado");
+      res.send(user);
     })
     .catch((err) => {
       res.send(err);
