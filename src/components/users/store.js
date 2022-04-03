@@ -5,4 +5,18 @@ function add(user) {
     return newUser.save()
 }
 
-module.exports={add}
+function update(id, newUser) {
+    return Model.findByIdAndUpdate(id, newUser)
+}
+
+function remove(id) {
+    return Model.findByIdAndDelete(id)
+}
+function getAll() {
+    return Model.find()
+}
+function getUser(id) {
+    return Model.findById(id)
+}
+
+module.exports={add,update,remove,getAll,getUser}

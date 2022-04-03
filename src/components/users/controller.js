@@ -9,8 +9,25 @@ function addUser(name) {
     }
     return store.add(user);
 }
+function updateUser(id, newUserData) {
+    return store.update(id, newUserData);
+}
+function DeleteUser(id) {
+    return store.remove(id);
+}
+
+function getAllUsers() {
+    return store.getAll();
+}
+function getUser(id) {
+    return store.getUser(id);
+}
 
 
 module.exports={
-  addUser
+  addUser,
+  updateUser,
+  DeleteUser,
+  getAllUsers,
+  getUser
 }
