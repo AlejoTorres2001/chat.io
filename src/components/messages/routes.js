@@ -5,8 +5,8 @@ router.post("/", function (req, res) {
   const messageText = req.body.message;
   const fromUserId = req.body.fromUserId;
   const isGlobal = req.body?.isGlobal ? req.body.isGlobal : true; 
-  const toUsers = req.body?.toUsers ? req.body.toUsers : [];
-  addMessage(messageText,fromUserId,isGlobal,toUsers)
+  const chatId = req.body?.chatId ? req.body.chatId : null;
+  addMessage(messageText,fromUserId,isGlobal,chatId)
     .then((message) => {
       res.send(message);
     })
