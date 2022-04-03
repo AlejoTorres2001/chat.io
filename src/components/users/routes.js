@@ -18,7 +18,7 @@ router.post("/", function (req, res) {
       res.send(err);
     });
 });
-router.post("/update", function (req, res) {
+router.put("/", function (req, res) {
   const id = req.body.id;
   const newUserData = req.body.newUserData;
   updateUser(id, newUserData)
@@ -33,6 +33,10 @@ router.delete("/delete", function (req, res) {
   const id = req.body.id;
   DeleteUser(id)
     .then((user) => {
+      if (!user) {
+        res.status(404).send("User not found");
+        return
+      }
       res.send(user);
     })
     .catch((err) => {
