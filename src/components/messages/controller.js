@@ -1,10 +1,10 @@
-const { socket } = require("../../socket");
+
 const store = require("./store");
 
 function addMessage(messageText, fromUserId, isGlobal = true, chatId = null) {
-  return new Promise((resolve, reject) => {
+ 
     if(!messageText || !fromUserId){
-      reject("Message text and fromUserId are required");
+      return Promise.reject("Message text and fromUserId are required");
     }
     const messageData = {
       message: messageText,
@@ -13,11 +13,9 @@ function addMessage(messageText, fromUserId, isGlobal = true, chatId = null) {
       chat: chatId,
       createdAt: new Date(),
     };
-    store.addMessage(messageData);
-    socket.io.emit('message', messageData);
-
-    resolve(messageData);
-  })
+    return store.addMessage(messageData);
+    
+    
   
 }
 function deleteMessage(messageId) {

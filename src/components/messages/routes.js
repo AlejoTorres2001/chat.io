@@ -1,4 +1,5 @@
 const express = require("express");
+const { socket } = require("../../socket");
 const router = express.Router();
 const {addMessage, deleteMessage,getMessages,getUserMessages} = require("./controller");
 router.post("/", function (req, res) {
@@ -8,6 +9,7 @@ router.post("/", function (req, res) {
   const chatId = req.body?.chatId ? req.body.chatId : null;
   addMessage(messageText,fromUserId,isGlobal,chatId)
     .then((message) => {
+      socket.io.emit('message', message);
       res.send(message);
     })
     .catch((err) => {
