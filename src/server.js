@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require('cors');
 const users = require("./components/users/routes");
 const messages = require("./components/messages/routes");
 const chats = require("./components/chats/routes");
@@ -12,6 +13,9 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 })
+app.use(cors({
+  origin: 'http://localhost:3001',
+}))
 app.use(express.json());
 app.use("/users", users);
 app.use("/messages",messages)
