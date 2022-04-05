@@ -26,6 +26,7 @@ router.delete("/delete", function (req, res) {
       res.send(message);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 
@@ -36,6 +37,7 @@ router.get("/", function (req, res) {
       res.send(messages);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 })
@@ -46,6 +48,7 @@ router.get("/:userId", function (req, res) {
       res.send(messages);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 })

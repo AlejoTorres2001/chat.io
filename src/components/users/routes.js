@@ -15,6 +15,7 @@ router.post("/", function (req, res) {
       res.send(user);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 });
@@ -26,6 +27,7 @@ router.put("/", function (req, res) {
       res.send(user);
     })
     .catch((err) => {
+      res.status(500);
       res.send(err);
     });
 });
@@ -40,6 +42,7 @@ router.delete("/delete", function (req, res) {
       res.send(user);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 });
@@ -50,6 +53,7 @@ router.get("/", function (req, res) {
       res.send(users);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 });
@@ -61,6 +65,7 @@ router.get("/:id", function (req, res) {
       res.send(user);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 });

@@ -16,6 +16,7 @@ router.get("/", function (req, res) {
       res.send(chats);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 })
@@ -26,6 +27,7 @@ router.get("/chat/:id", function (req, res) {
       res.send(chat);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 })
@@ -36,6 +38,7 @@ router.get("/:userId", function (req, res) {
       res.send(chats);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 })
@@ -46,6 +49,7 @@ router.post("/", function (req, res) {
       res.send(chat);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 })
@@ -60,6 +64,7 @@ router.delete("/delete", function (req, res) {
       res.send(chat);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 })
@@ -71,6 +76,7 @@ router.put("/", function (req, res) {
       res.send(chat);
     })
     .catch((err) => {
+      res.status(500)
       res.send(err);
     });
 })
