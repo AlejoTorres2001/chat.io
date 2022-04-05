@@ -11,11 +11,14 @@ function App() {
       setResponse(data);
     });
   }, []);
-  
+  console.log(response)
   return (
     <div>
       <h1>Sale el mensaje:</h1>
       <h1>{response.message}</h1>
+      <h2>{response.user}</h2>
+      <h3>{response._id}</h3>
+      <p>{response.createdAt}</p>
     </div>
   )
 }
