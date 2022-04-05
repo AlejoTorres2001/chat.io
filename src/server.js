@@ -9,10 +9,6 @@ const port = 3000;
 const server = require("http").Server(app);
 const { connectDb } = require("./db");
 const { connect: connectToSocket, socket } = require("./socket");
-app.use(express.static("public"));
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-})
 app.use(cors({
   origin: 'http://localhost:3001',
 }))
