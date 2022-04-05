@@ -9,16 +9,16 @@ function deleteMessage(messageId) {
   return Model.findByIdAndDelete(messageId);
 }
 
-function getMessages(){
+function getMessages() {
   return Model.find();
 }
-function getUserMessages(userId){
-  return Model.find({user:userId});
+function getUserMessages(userId) {
+  return Model.find({ user: userId });
 }
 
 module.exports = {
   addMessage,
   deleteMessage,
   getMessages,
-  getUserMessages
+  getUserMessages,
 };
