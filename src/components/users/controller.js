@@ -31,6 +31,12 @@ function getUser(id) {
   }
   return store.getUser(id);
 }
+function updateUserImage(id, image) {
+  if(!id || !image){
+    return Promise.reject("id and image are required");
+  }
+  return store.updateUserImage(id, image);
+}
 
 module.exports = {
   addUser,
@@ -38,4 +44,5 @@ module.exports = {
   DeleteUser,
   getAllUsers,
   getUser,
+  updateUserImage
 };

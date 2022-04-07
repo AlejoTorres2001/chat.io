@@ -31,6 +31,18 @@ router.put("/", function (req, res) {
       res.send(err);
     });
 });
+router.put("/image", function (req, res) {
+  const id = req.body.id;
+  const image = req.body.image;
+  updateImage(id, image)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send(err);
+    });
+})
 router.delete("/delete", function (req, res) {
   const id = req.body.id;
   DeleteUser(id)

@@ -18,5 +18,8 @@ function getAll() {
 function getUser(id) {
   return Model.findById(id);
 }
+function updateUserImage(id, image) {
+  return Model.findByIdAndUpdate(id, { image: image }, { new: true });
+}
 
-module.exports = { add, update, remove, getAll, getUser };
+module.exports = { add, update, remove, getAll, getUser,updateUserImage };
