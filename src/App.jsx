@@ -1,8 +1,8 @@
 import { useState,useEffect } from 'react'
-import './main.css'
 import socketIOClient from "socket.io-client";
+import Chat from './components/Chat/Chat';
+import SideBar from './components/SideBar/SideBar';
 const ENDPOINT = "http://localhost:3000";
-
 function App() {
   const [response, setResponse] = useState({});
   useEffect(() => {
@@ -13,12 +13,9 @@ function App() {
   }, []);
   console.log(response)
   return (
-    <div>
-      <h1 className='bg-red-300'>Sale el mensaje:</h1>
-      <h1>{response.message}</h1>
-      <h2>{response.user}</h2>
-      <h3>{response._id}</h3>
-      <p>{response.createdAt}</p>
+    <div className='grid grid-cols-[0.3fr,1fr]'>
+      <SideBar></SideBar>
+      <Chat></Chat>
     </div>
   )
 }
