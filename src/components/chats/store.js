@@ -19,7 +19,9 @@ function getAllChats() {
 function getUserChats(userId) {
   return Model.find({ users: userId });
 }
-
+function updateImage(chatId, image) {
+  return Model.findByIdAndUpdate(chatId, { image: image }, { new: true });
+}
 module.exports={
   addChat,
   deleteChat,
@@ -27,4 +29,5 @@ module.exports={
   getChat,
   getAllChats,
   getUserChats,
+  updateImage,
 }

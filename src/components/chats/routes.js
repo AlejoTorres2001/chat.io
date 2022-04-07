@@ -8,6 +8,7 @@ const {
   getAllChats,
   getChat,
   getUserChats,
+  updateImage
 } = require("./controller");
 
 router.get("/", function (req, res) {
@@ -72,6 +73,18 @@ router.put("/", function (req, res) {
   const id = req.body.id;
   const users = req.body.users;
   updateChat(id, users)
+    .then((chat) => {
+      res.send(chat);
+    })
+    .catch((err) => {
+      res.status(500)
+      res.send(err);
+    });
+})
+router.put("/image", function (req, res) {
+  const id = req.body.id;
+  const image = req.body.image;
+  updateImage(id, image)
     .then((chat) => {
       res.send(chat);
     })

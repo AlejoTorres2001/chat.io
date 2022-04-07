@@ -39,6 +39,12 @@ function getUserChats(userId) {
   }
   return store.getUserChats(userId);
 }
+function updateImage(chatId, image) {
+  if(!chatId || !image){
+    return Promise.reject("Chat id and image are required");
+  }
+  return store.updateImage(chatId, image);
+}
 module.exports={
   addChat,
   deleteChat,
@@ -46,4 +52,5 @@ module.exports={
   getChat,
   getAllChats,
   getUserChats,
+  updateImage,
 }
