@@ -69,11 +69,11 @@ router.delete("/delete", function (req, res) {
       res.send(err);
     });
 })
-router.put("/", function (req, res) {
-  const id = req.body?.id;
-  const users = req.body?.users;
+router.put("/:id", function (req, res) {
+  const id = req.params.id;
+  const users = req.body?.users ? req.body.users : [];
   const name = req.body?.name;
-  updateChat(id, users,name)
+  updateChat(id,users,name)
     .then((chat) => {
       res.send(chat);
     })

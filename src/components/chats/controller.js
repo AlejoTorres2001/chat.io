@@ -14,11 +14,14 @@ function deleteChat(chatId) {
   return store.deleteChat(chatId);
 }
 async function updateChat(chatId,users,name) {
-  if(!chatId || !users || !users.length>0){
+  if(!chatId){
     return Promise.reject("Chat id is required");
   }
+  console.log(chatId);
   const chat = await store.getChat(chatId)
+  console.log(users)
   const newUsers = [...chat.users,...users];
+  console.log(newUsers);
   const newName = name ? name : chat.name;
   return store.updateChat(chatId, { users: newUsers,name:newName });
 
