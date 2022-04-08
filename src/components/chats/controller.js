@@ -1,7 +1,7 @@
 const store = require("./store");
 
 function addChat(users) {
-  if(!users || !users.length>0){
+  if (!users || !users.length > 0) {
     return Promise.reject("Users are required");
   }
   const chatData = {
@@ -13,23 +13,21 @@ function addChat(users) {
 function deleteChat(chatId) {
   return store.deleteChat(chatId);
 }
-async function updateChat(chatId,users,name) {
-  if(!chatId){
+async function updateChat(chatId, users, name) {
+  if (!chatId) {
     return Promise.reject("Chat id is required");
   }
-  console.log(chatId);
-  const chat = await store.getChat(chatId)
-  console.log(users)
-  const newUsers = [...chat.users,...users];
-  console.log(newUsers);
-  const newName = name ? name : chat.name;
-  return store.updateChat(chatId, { users: newUsers,name:newName });
 
+  const chat = await store.getChat(chatId);
+
+  const newUsers = [...chat.users, ...users];
+
+  const newName = name ? name : chat.name;
+  return store.updateChat(chatId, { users: newUsers, name: newName });
 }
 
-
 function getChat(chatId) {
-  if(!chatId){
+  if (!chatId) {
     return Promise.reject("Chat id is required");
   }
   return store.getChat(chatId);
@@ -38,18 +36,18 @@ function getAllChats() {
   return store.getAllChats();
 }
 function getUserChats(userId) {
-  if(!userId){
+  if (!userId) {
     return Promise.reject("User id is required");
   }
   return store.getUserChats(userId);
 }
 function updateImage(chatId, image) {
-  if(!chatId || !image){
+  if (!chatId || !image) {
     return Promise.reject("Chat id and image are required");
   }
   return store.updateImage(chatId, image);
 }
-module.exports={
+module.exports = {
   addChat,
   deleteChat,
   updateChat,
@@ -57,4 +55,4 @@ module.exports={
   getAllChats,
   getUserChats,
   updateImage,
-}
+};
