@@ -15,6 +15,7 @@ module.exports = {
         'light-blue-chat':'#4C8F93',
         'white-mssg':'#E9EDEF',
         'gray-placeholder':'#8696A0',
+        'gray-date':'#8696A0',
       },
     }
   },
