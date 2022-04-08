@@ -8,6 +8,10 @@ const chatSchema = new Schema({
     ref: "User",
     required:true,
   }],
+  name:{
+    type:String,
+    required:false,
+  }
 });
 
 const model = mongoose.model("chat", chatSchema);

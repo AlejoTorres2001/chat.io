@@ -70,9 +70,10 @@ router.delete("/delete", function (req, res) {
     });
 })
 router.put("/", function (req, res) {
-  const id = req.body.id;
-  const users = req.body.users;
-  updateChat(id, users)
+  const id = req.body?.id;
+  const users = req.body?.users;
+  const name = req.body?.name;
+  updateChat(id, users,name)
     .then((chat) => {
       res.send(chat);
     })

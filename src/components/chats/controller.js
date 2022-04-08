@@ -13,13 +13,14 @@ function addChat(users) {
 function deleteChat(chatId) {
   return store.deleteChat(chatId);
 }
-async function updateChat(chatId, users) {
+async function updateChat(chatId,users,name) {
   if(!chatId || !users || !users.length>0){
-    return Promise.reject("Chat id and users are required");
+    return Promise.reject("Chat id is required");
   }
   const chat = await store.getChat(chatId)
   const newUsers = [...chat.users,...users];
-  return store.updateChat(chatId, { users: newUsers });
+  const newName = name ? name : chat.name;
+  return store.updateChat(chatId, { users: newUsers,name:newName });
 
 }
 
