@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 const userId = "62489759e7cffb86b5ea0a86";
 import getUserById from "../../functions/getUserById";
 import TimeAgo from "timeago-react";
+import socketIOClient from "socket.io-client";
+import routes from "../../endpoints";
 const getOtherUser = (users, SessionUser) => {
   return users.filter((user) => user !== SessionUser)[0];
 };
 const ChatItem = ({ chat }) => {
   const [chatName, setChatName] = useState("");
   const [chatImage, setChatImage] = useState("");
-  const resolveChatName = async () => {
+  const resolveChatName = async (chat,userId) => {
     if (!chat.name) {
       const user = await getUserById(getOtherUser(chat.users, userId));
       setChatName(user.name);
@@ -16,7 +18,7 @@ const ChatItem = ({ chat }) => {
     }
     setChatName(chat.name);
   };
-  const resolveChatImage = async () => {
+  const resolveChatImage = async (chat,userId) => {
     if (!chat.image) {
       const user = await getUserById(getOtherUser(chat.users, userId));
       setChatImage(user.image);
@@ -25,8 +27,16 @@ const ChatItem = ({ chat }) => {
     setChatImage(chat.image);
   };
   useEffect(() => {
-    resolveChatName();
-    resolveChatImage();
+    const socket = socketIOClient(routes.URL);
+    resolveChatName(chat,userId);
+    resolveChatImage(chat,userId);
+    socket.on("updatedChat", data => {
+      if(chat._id !== data._id) return
+      resolveChatName(data,userId);
+      resolveChatImage(data,userId);
+
+    });
+    return () => socket.disconnect();
   }, []);
   return (
     <div className="flex mx-2 my-3 border-b border-gray-selected h-auto align-middle">

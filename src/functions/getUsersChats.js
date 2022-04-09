@@ -1,8 +1,8 @@
 import axios from "axios";
-const ENDPOINT = "http://localhost:3000";
+import routes from "../endpoints"; 
 const getUsersChats = async (userId) => {
   return new Promise((resolve, reject) => {
-    axios.get(ENDPOINT+'/chats/'+userId).then(res => {
+    axios.get(routes.chats.UsersChats.replace(':userId',userId)).then(res => {
       resolve(res.data);
     }).catch(err => {
       reject(err);
