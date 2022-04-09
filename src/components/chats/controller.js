@@ -1,10 +1,11 @@
 const store = require("./store");
 
-function addChat(users) {
+function addChat(users,name) {
   if (!users || !users.length > 0) {
     return Promise.reject("Users are required");
   }
   const chatData = {
+    name:name,
     createdAt: new Date(),
     users: users,
   };
@@ -47,6 +48,12 @@ function updateImage(chatId, image) {
   }
   return store.updateImage(chatId, image);
 }
+function updateChatLastMessage(chatId, messageId) {
+  if (!chatId || !messageId) {
+    return Promise.reject("Chat id and message id are required");
+  }
+  return store.updateChatLastMessage(chatId, messageId);
+}
 module.exports = {
   addChat,
   deleteChat,
@@ -55,4 +62,5 @@ module.exports = {
   getAllChats,
   getUserChats,
   updateImage,
+  updateChatLastMessage
 };

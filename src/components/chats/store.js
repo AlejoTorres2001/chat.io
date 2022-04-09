@@ -22,6 +22,9 @@ function getUserChats(userId) {
 function updateImage(chatId, image) {
   return Model.findByIdAndUpdate(chatId, { image: image }, { new: true });
 }
+function updateChatLastMessage(chatId, messageId) {
+  return Model.findByIdAndUpdate(chatId, { lastMessage: messageId }, { new: true });
+}
 module.exports={
   addChat,
   deleteChat,
@@ -30,4 +33,5 @@ module.exports={
   getAllChats,
   getUserChats,
   updateImage,
+  updateChatLastMessage
 }
