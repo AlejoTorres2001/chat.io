@@ -23,8 +23,8 @@ router.post("/", function (req, res) {
     });
 });
 
-router.delete("/delete", function (req, res) {
-  const id = req.body.id;
+router.delete("/delete/:id", function (req, res) {
+  const id = req.params.id;
   deleteMessage(id)
     .then((message) => {
       if (!message) {

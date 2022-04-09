@@ -19,8 +19,8 @@ router.post("/", function (req, res) {
       res.send(err);
     });
 });
-router.put("/", function (req, res) {
-  const id = req.body.id;
+router.put("/:id", function (req, res) {
+  const id = req.params.id;
   const newUserData = req.body.newUserData;
   updateUser(id, newUserData)
     .then((user) => {
@@ -31,8 +31,8 @@ router.put("/", function (req, res) {
       res.send(err);
     });
 });
-router.put("/image", function (req, res) {
-  const id = req.body.id;
+router.put("/image/:id", function (req, res) {
+  const id = req.params.id;
   const image = req.body.image;
   updateImage(id, image)
     .then((user) => {
@@ -43,8 +43,8 @@ router.put("/image", function (req, res) {
       res.send(err);
     });
 })
-router.delete("/delete", function (req, res) {
-  const id = req.body.id;
+router.delete("/delete/:id", function (req, res) {
+  const id = req.params.id;
   DeleteUser(id)
     .then((user) => {
       if (!user) {
