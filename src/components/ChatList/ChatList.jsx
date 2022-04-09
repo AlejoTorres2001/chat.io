@@ -14,9 +14,7 @@ const ChatList = () => {
     const socket = socketIOClient(routes.URL);
     socket.on('newChat', addChat);
     socket.on('deletedChat', deleteChat);
-    return () => {
-      socket.off('deletedChat', deleteChat);
-      socket.off('newChat', addChat);}
+    return () => socket.disconnect()
   }, [])
   return (
     <div className='flex flex-col h-full'>
