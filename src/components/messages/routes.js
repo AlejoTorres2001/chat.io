@@ -6,15 +6,21 @@ const {
   deleteMessage,
   getMessages,
   getUserMessages,
+  getMessage,
 } = require("./controller");
+const {updateChatLastMessage} = require("../chats/controller");
 router.post("/", function (req, res) {
   const messageText = req.body.message;
   const fromUserId = req.body.fromUserId;
-  const isGlobal = req.body?.isGlobal ? req.body.isGlobal : true;
   const chatId = req.body?.chatId ? req.body.chatId : null;
-  addMessage(messageText, fromUserId, isGlobal, chatId)
+  addMessage(messageText, fromUserId, chatId)
     .then((message) => {
-      socket.io.emit("message", message);
+      updateChatLastMessage(chatId, message._id).then(
+        (chat) => {
+          socket.io.emit("updatedChatLastMessage", chat);
+        }
+      )
+      socket.io.emit("newMessage", message);
       res.send(message);
     })
     .catch((err) => {
@@ -59,5 +65,16 @@ router.get("/:userId", function (req, res) {
       res.send(err);
     });
 });
+router.get("/message/:id", function (req, res) {
+  const id = req.params.id;
+  getMessage(id)
+    .then((message) => {
+      res.send(message);
+    })
+    .catch((err) => {
+      res.status(500);
+      res.send(err);
+    });
+})
 
 module.exports = router;
