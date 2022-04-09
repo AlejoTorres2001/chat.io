@@ -1,13 +1,12 @@
 const store = require("./store");
 
-function addMessage(messageText, fromUserId, isGlobal = true, chatId = null) {
+function addMessage(messageText, fromUserId,chatId) {
   if (!messageText || !fromUserId) {
     return Promise.reject("Message text and fromUserId are required");
   }
   const messageData = {
     message: messageText,
     user: fromUserId,
-    global: isGlobal,
     chat: chatId,
     createdAt: new Date(),
   };
@@ -29,9 +28,17 @@ function getUserMessages(userId) {
   return store.getUserMessages(userId);
 }
 
+function getMessage(messageId) {
+  if (!messageId) {
+    return Promise.reject("Message id is required");
+  }
+  return store.getMessage(messageId);
+}
+
 module.exports = {
   addMessage,
   deleteMessage,
   getMessages,
   getUserMessages,
+  getMessage
 };

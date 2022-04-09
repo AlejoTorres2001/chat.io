@@ -10,12 +10,11 @@ const messageSchema = new Schema({
     type: String,
     required: true,
   },
-  global: Boolean,
   createdAt: Date,
   chat:{
     type: Schema.ObjectId,
     ref:"Chat",
-    required: false,
+    required: true,
   }
 });
 
