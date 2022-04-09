@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const { socket } = require("../../socket");
 const {
   addChat,
   deleteChat,
@@ -47,6 +47,7 @@ router.post("/", function (req, res) {
   const users = req.body.users;
   addChat(users)
     .then((chat) => {
+      socket.io.emit("newChat", chat);
       res.send(chat);
     })
     .catch((err) => {
@@ -54,14 +55,15 @@ router.post("/", function (req, res) {
       res.send(err);
     });
 })
-router.delete("/delete", function (req, res) {
-  const id = req.body.id;
+router.delete("/delete/:id", function (req, res) {
+  const id = req.params.id;
   deleteChat(id)
     .then((chat) => {
       if (!chat) {
         res.status(404).send("Chat not found");
         return
       }
+      socket.io.emit("deletedChat", chat);
       res.send(chat);
     })
     .catch((err) => {
@@ -75,6 +77,8 @@ router.put("/:id", function (req, res) {
   const name = req.body?.name;
   updateChat(id,users,name)
     .then((chat) => {
+      socket.io.emit("updatedChat", chat);
+
       res.send(chat);
     })
     .catch((err) => {
@@ -87,6 +91,7 @@ router.put("/image", function (req, res) {
   const image = req.body.image;
   updateImage(id, image)
     .then((chat) => {
+      socket.io.emit("updatedChat", chat);
       res.send(chat);
     })
     .catch((err) => {
