@@ -45,7 +45,8 @@ router.get("/:userId", function (req, res) {
 })
 router.post("/", function (req, res) {
   const users = req.body.users;
-  addChat(users)
+  const name = req.body.name? req.body.name : null;
+  addChat(users,name)
     .then((chat) => {
       socket.io.emit("newChat", chat);
       res.send(chat);
