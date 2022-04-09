@@ -9,6 +9,7 @@ const routes =  {
     updateChatName: url+'/chats/:id',
     updateChatImage: url+'/chats/image/:id',
     deleteChat: url+'/chats/delete/:id',
+    readMessages: url+'/chats/readmessages/:id',
   },
   messages:{
     createMessage: url+'/messages',
