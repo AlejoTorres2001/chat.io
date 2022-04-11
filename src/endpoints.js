@@ -25,6 +25,9 @@ const routes =  {
     deleteUser: url+'/users/delete/:id',
     getUsers: url+'/users',
     getUser: url+'/users/:id',
+    login: url+'/users/login',
+    logout: url+'/users/logout',
+    register: url+'/users/register',
   }
 
 }
