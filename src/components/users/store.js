@@ -6,7 +6,7 @@ function add(user) {
 }
 
 function update(id, newUser) {
-  return Model.findByIdAndUpdate(id, newUser);
+  return Model.findByIdAndUpdate(id, newUser,{new:true});
 }
 
 function remove(id) {
@@ -21,5 +21,8 @@ function getUser(id) {
 function updateUserImage(id, image) {
   return Model.findByIdAndUpdate(id, { image: image }, { new: true });
 }
+function checkIfUserExists(username) {
+  return Model.findOne({ username: username });
+}
 
-module.exports = { add, update, remove, getAll, getUser,updateUserImage };
+module.exports = { add, update, remove, getAll, getUser,updateUserImage,checkIfUserExists };

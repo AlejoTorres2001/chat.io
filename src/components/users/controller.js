@@ -1,12 +1,9 @@
 const store = require("./store");
 
-function addUser(name) {
-  if (!name) {
+function addUser(user) {
+  if (!user) {
     return Promise.reject("name is required");
   }
-  const user = {
-    name,
-  };
   return store.add(user);
 }
 function updateUser(id, newUserData) {
@@ -37,6 +34,12 @@ function updateUserImage(id, image) {
   }
   return store.updateUserImage(id, image);
 }
+function checkIfUserExists(username) {
+  if (!username) {
+    return Promise.reject("Username is required");
+  }
+  return store.checkIfUserExists(username);
+}
 
 module.exports = {
   addUser,
@@ -44,5 +47,6 @@ module.exports = {
   DeleteUser,
   getAllUsers,
   getUser,
-  updateUserImage
+  updateUserImage,
+  checkIfUserExists
 };

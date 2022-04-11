@@ -1,28 +1,76 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 const {
   addUser,
   updateUser,
   DeleteUser,
   getUser,
   getAllUsers,
+  checkIfUserExists,
 } = require("./controller");
+const { createToken,validateToken } = require("../../jwt");
 
-router.post("/", function (req, res) {
-  const userName = req.body.name;
-  addUser(userName)
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((err) => {
-      res.status(500)
-      res.send(err);
-    });
+router.post("/register", function (req, res) {
+  const { username, password } = req.body;
+  bcrypt.hash(password, 10).then((hash) => {
+    const newUser = {
+      username:username,
+      password: hash,
+    };
+    checkIfUserExists(username)
+      .then((user) => {
+        if (user) {
+          res.status(400).json({
+            message: "User already exists",
+          });
+        } else {
+          addUser(newUser).then((user) => {
+            res.status(201).json({
+              message: "User created",
+              user,
+            });
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500);
+        res.send(err);
+      });
+  });
 });
-router.put("/:id", function (req, res) {
+router.post("/login", async function (req, res) {
+  const { username, password } = req.body;
+  const user = await checkIfUserExists(username);
+  if (!user) {
+    res.status(400).json({
+      message: "User does not exist",
+    });
+  } else {
+    bcrypt.compare(password, user.password).then((match) => {
+      if (match) {
+        const accesToken = createToken(user)
+        res.cookie("access_token", accesToken, {
+          maxAge: 60*60*1000,
+        })
+        res.status(200).json({
+          message: "User logged in",});
+      } else {
+        res.status(400).json({
+          message: "Wrong password",
+        });
+      }
+    });
+  }
+})
+router.put("/:id",validateToken,async function (req, res) {
   const id = req.params.id;
-  const newUserData = req.body.newUserData;
-  updateUser(id, newUserData)
+  const user = await getUser(id);
+  const newUsername = req.body.username ? req.body.username : user.username;
+  const newPassword = req.body.password ? req.body.password : user.password;
+  const checkForUser = await checkIfUserExists(newUsername);
+  if (checkForUser) res.status(400).send("User already exists");
+  updateUser(id, { username: newUsername, password: newPassword })
     .then((user) => {
       res.send(user);
     })
@@ -31,7 +79,7 @@ router.put("/:id", function (req, res) {
       res.send(err);
     });
 });
-router.put("/image/:id", function (req, res) {
+router.put("/image/:id",validateToken, function (req, res) {
   const id = req.params.id;
   const image = req.body.image;
   updateImage(id, image)
@@ -42,34 +90,34 @@ router.put("/image/:id", function (req, res) {
       res.status(500);
       res.send(err);
     });
-})
-router.delete("/delete/:id", function (req, res) {
+});
+router.delete("/delete/:id",validateToken, function (req, res) {
   const id = req.params.id;
   DeleteUser(id)
     .then((user) => {
       if (!user) {
         res.status(404).send("User not found");
-        return
+        return;
       }
       res.send(user);
     })
     .catch((err) => {
-      res.status(500)
+      res.status(500);
       res.send(err);
     });
 });
 
-router.get("/", function (req, res) {
+router.get("/",validateToken, function (req, res) {
   getAllUsers()
     .then((users) => {
       res.send(users);
     })
     .catch((err) => {
-      res.status(500)
+      res.status(500);
       res.send(err);
     });
 });
-router.get("/:id", function (req, res) {
+router.get("/:id",validateToken, function (req, res) {
   const id = req.params.id;
 
   getUser(id)
@@ -77,7 +125,7 @@ router.get("/:id", function (req, res) {
       res.send(user);
     })
     .catch((err) => {
-      res.status(500)
+      res.status(500);
       res.send(err);
     });
 });
