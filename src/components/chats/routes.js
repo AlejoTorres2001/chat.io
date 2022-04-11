@@ -1,4 +1,5 @@
 const express = require("express");
+const { validateToken } = require("../../jwt");
 const router = express.Router();
 const { socket } = require("../../socket");
 const {
@@ -8,10 +9,11 @@ const {
   getAllChats,
   getChat,
   getUserChats,
-  updateImage
+  updateImage,
+  removeUnreadMessages
 } = require("./controller");
 
-router.get("/", function (req, res) {
+router.get("/",validateToken, function (req, res) {
   getAllChats()
     .then((chats) => {
       res.send(chats);
@@ -21,7 +23,7 @@ router.get("/", function (req, res) {
       res.send(err);
     });
 })
-router.get("/chat/:id", function (req, res) {
+router.get("/chat/:id",validateToken, function (req, res) {
   const id = req.params.id;
   getChat(id)
     .then((chat) => {
@@ -32,7 +34,7 @@ router.get("/chat/:id", function (req, res) {
       res.send(err);
     });
 })
-router.get("/:userId", function (req, res) {
+router.get("/:userId",validateToken, function (req, res) {
   const userId = req.params.userId;
   getUserChats(userId)
     .then((chats) => {
@@ -43,7 +45,7 @@ router.get("/:userId", function (req, res) {
       res.send(err);
     });
 })
-router.post("/", function (req, res) {
+router.post("/",validateToken, function (req, res) {
   const users = req.body.users;
   const name = req.body.name? req.body.name : null;
   addChat(users,name)
@@ -56,7 +58,7 @@ router.post("/", function (req, res) {
       res.send(err);
     });
 })
-router.delete("/delete/:id", function (req, res) {
+router.delete("/delete/:id",validateToken, function (req, res) {
   const id = req.params.id;
   deleteChat(id)
     .then((chat) => {
@@ -72,7 +74,7 @@ router.delete("/delete/:id", function (req, res) {
       res.send(err);
     });
 })
-router.put("/:id", function (req, res) {
+router.put("/:id",validateToken, function (req, res) {
   const id = req.params.id;
   const users = req.body?.users ? req.body.users : [];
   const name = req.body?.name;
@@ -87,7 +89,7 @@ router.put("/:id", function (req, res) {
       res.send(err);
     });
 })
-router.put("/image", function (req, res) {
+router.put("/image",validateToken, function (req, res) {
   const id = req.body.id;
   const image = req.body.image;
   updateImage(id, image)
@@ -101,6 +103,17 @@ router.put("/image", function (req, res) {
     });
 })
 
+router.put("/readmessages/:id",validateToken, function (req, res) {
+  const id = req.params.id;
+  removeUnreadMessages(id).then((chat) => {
+    socket.io.emit("readMessages", chat);
+    res.send(chat);
+  })
+  .catch((err) => {
+    res.status(500)
+    res.send(err);
+  });
+})
 
 
 

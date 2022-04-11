@@ -25,6 +25,13 @@ function updateImage(chatId, image) {
 function updateChatLastMessage(chatId, messageId) {
   return Model.findByIdAndUpdate(chatId, { lastMessage: messageId }, { new: true });
 }
+async function addUnreadMessage(chatId) {
+  const chat = await Model.findById(chatId)
+  return Model.findByIdAndUpdate(chatId, { unreadMessages: chat.unreadMessages +1 }, { new: true });
+}
+async function removeUnreadMessages(chatId) {
+  return Model.findByIdAndUpdate(chatId, { unreadMessages: 0}, { new: true });
+}
 module.exports={
   addChat,
   deleteChat,
@@ -33,5 +40,7 @@ module.exports={
   getAllChats,
   getUserChats,
   updateImage,
-  updateChatLastMessage
+  updateChatLastMessage,
+  addUnreadMessage,
+  removeUnreadMessages,
 }
