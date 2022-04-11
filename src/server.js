@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
 const users = require("./components/users/routes");
 const messages = require("./components/messages/routes");
 const chats = require("./components/chats/routes");
@@ -13,6 +14,7 @@ app.use(cors({
   origin: 'http://localhost:3001',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }))
+app.use(cookieParser());
 app.use(express.json());
 app.use("/users", users);
 app.use("/messages",messages)
