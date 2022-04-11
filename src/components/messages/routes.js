@@ -8,8 +8,10 @@ const {
   getUserMessages,
   getMessage,
 } = require("./controller");
-const {updateChatLastMessage} = require("../chats/controller");
-router.post("/", function (req, res) {
+const {updateChatLastMessage,addUnreadMessage} = require("../chats/controller");
+const { validateToken } = require("../../jwt");
+
+router.post("/",validateToken, function (req, res) {
   const messageText = req.body.message;
   const fromUserId = req.body.fromUserId;
   const chatId = req.body?.chatId ? req.body.chatId : null;
@@ -17,9 +19,10 @@ router.post("/", function (req, res) {
     .then((message) => {
       updateChatLastMessage(chatId, message._id).then(
         (chat) => {
-          socket.io.emit("updatedChatLastMessage", chat);
-        }
-      )
+            addUnreadMessage(chatId).then((chat)=>{
+              socket.io.emit("updatedChatLastMessage", chat);
+            })
+          });
       socket.io.emit("newMessage", message);
       res.send(message);
     })
@@ -29,7 +32,7 @@ router.post("/", function (req, res) {
     });
 });
 
-router.delete("/delete/:id", function (req, res) {
+router.delete("/delete/:id",validateToken, function (req, res) {
   const id = req.params.id;
   deleteMessage(id)
     .then((message) => {
@@ -44,7 +47,7 @@ router.delete("/delete/:id", function (req, res) {
       res.send(err);
     });
 });
-router.get("/", function (req, res) {
+router.get("/",validateToken, function (req, res) {
   getMessages()
     .then((messages) => {
       res.send(messages);
@@ -54,7 +57,7 @@ router.get("/", function (req, res) {
       res.send(err);
     });
 });
-router.get("/:userId", function (req, res) {
+router.get("/:userId",validateToken, function (req, res) {
   const userId = req.params.userId;
   getUserMessages(userId)
     .then((messages) => {
@@ -65,7 +68,7 @@ router.get("/:userId", function (req, res) {
       res.send(err);
     });
 });
-router.get("/message/:id", function (req, res) {
+router.get("/message/:id",validateToken, function (req, res) {
   const id = req.params.id;
   getMessage(id)
     .then((message) => {
