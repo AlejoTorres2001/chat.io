@@ -8,6 +8,7 @@ function addChat(users,name) {
     name:name,
     createdAt: new Date(),
     users: users,
+    unreadMessages: 0,
   };
   return store.addChat(chatData);
 }
@@ -54,6 +55,19 @@ function updateChatLastMessage(chatId, messageId) {
   }
   return store.updateChatLastMessage(chatId, messageId);
 }
+function addUnreadMessage (chatId) {
+  if (!chatId) {
+    return Promise.reject("Chat id is required");
+  }
+  return store.addUnreadMessage(chatId);
+}
+function removeUnreadMessages (chatId) {
+  if (!chatId) {
+    return Promise.reject("Chat id is required");
+  }
+  return store.removeUnreadMessages(chatId);
+}
+
 module.exports = {
   addChat,
   deleteChat,
@@ -62,5 +76,7 @@ module.exports = {
   getAllChats,
   getUserChats,
   updateImage,
-  updateChatLastMessage
+  updateChatLastMessage,
+  addUnreadMessage,
+  removeUnreadMessages,
 };
