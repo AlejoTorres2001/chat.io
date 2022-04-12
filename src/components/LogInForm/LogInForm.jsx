@@ -12,6 +12,7 @@ const LogInForm = () => {
   const [isRegistration, setIsRegistration] = useState(false);
   const [session, setSession] = useRecoilState(sessionState);
   const [errors, setErrors] = useState([]);
+  const [success, setSuccess] = useState(false);
   useEffect(() => {
     setErrors([]);
   }, [username, password]);
@@ -25,6 +26,8 @@ const LogInForm = () => {
         token: res.data.token,
       };
       setSession(session);
+      setSuccess(false);
+      return;
     }
     setErrors([...errors, "Invalid username or password"]);
   };
@@ -38,21 +41,24 @@ const LogInForm = () => {
     } catch (error) {
       return setErrors([...errors, "User already exists"]);
     }
-
-    alert("user created");
     setIsRegistration(false);
+    setSuccess(true);
   };
   return (
     <div className="flex items-center  justify-center bg-gray-darker h-screen ">
-
       <div className="flex flex-col align-middle   bg-gray-dark w-1/2 h-1/2 rounded-md">
-      {errors.length > 0 && (
-        <div className="flex flex-col items-center bg-gray-selected text-red-600 rounded-md">
-          {errors.map((error, index) => {
-            return <p key={index}>{error}</p>;
-          })}
-        </div>
-      )}
+        {errors.length > 0 && (
+          <div className="flex flex-col items-center bg-gray-selected text-red-600 rounded-md">
+            {errors.map((error, index) => {
+              return <p key={index}>{error}</p>;
+            })}
+          </div>
+        )}
+        {success && (
+          <div className="flex flex-col items-center bg-gray-selected text-green-600 rounded-md">
+            <p>User succesfully created</p>
+          </div>
+        )}
         <div className="  mx-4 flex flex-col align-middle justify-center mt-[20%] lg:mt-24 ">
           <h2 className="-mb-8 lg:-mb-7 text-white-mssg">Username</h2>
           <input
