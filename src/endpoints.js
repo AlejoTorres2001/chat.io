@@ -19,7 +19,7 @@ const routes =  {
     getMessage: url+'/messages/message/:id',
   },
   users:{
-    createUser: url+'/users',
+    createUser: url+'/users/register',
     updateUser: url+'/users/:id',
     updateUserImage: url+'/users/image/:id',
     deleteUser: url+'/users/delete/:id',
