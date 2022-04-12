@@ -2,7 +2,8 @@ import axios from "axios";
 import routes from "../endpoints"; 
 const updateUnreadMessages = (chatId,token) => {
   return new Promise((resolve, reject) => {
-    axios.put(routes.chats.readMessages.replace(':id',chatId),{
+    axios.put(routes.chats.readMessages.replace(':id',chatId),{},
+    {
       headers:{
         "x-access-token":token
       }
