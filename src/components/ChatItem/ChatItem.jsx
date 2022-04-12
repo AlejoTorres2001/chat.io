@@ -6,17 +6,20 @@ import socketIOClient from "socket.io-client";
 import routes from "../../endpoints";
 import getMessageByid from "../../functions/getMessageById";
 import updateUnreadMessages from "../../functions/updateUnreadMessages";
+import { useRecoilState } from "recoil";
+import sessionState from '../../atoms/sessionAtom';
 const getOtherUser = (users, SessionUser) => {
   return users.filter((user) => user !== SessionUser)[0];
 };
 const ChatItem = ({ chat }) => {
+  const [session, setSession] = useRecoilState(sessionState);
   const [chatName, setChatName] = useState("");
   const [chatImage, setChatImage] = useState("");
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [lastMessage, setLastMessage] = useState({});
   const resolveChatName = async (chat, userId) => {
     if (!chat.name) {
-      const user = await getUserById(getOtherUser(chat.users, userId));
+      const user = await getUserById(getOtherUser(chat.users, userId),session.token);
       setChatName(user.name);
       return;
     }
@@ -24,7 +27,7 @@ const ChatItem = ({ chat }) => {
   };
   const resolveChatImage = async (chat, userId) => {
     if (!chat.image) {
-      const user = await getUserById(getOtherUser(chat.users, userId));
+      const user = await getUserById(getOtherUser(chat.users, userId),session.token);
       setChatImage(user.image);
       return;
     }
@@ -32,7 +35,7 @@ const ChatItem = ({ chat }) => {
   };
   const resolveLastMessage = async (chat) => {
     if (!chat.lastMessage) return;
-    const message = await getMessageByid(chat.lastMessage);
+    const message = await getMessageByid(chat.lastMessage,session.token);
     setLastMessage(message);
   };
   useEffect(() => {
@@ -49,7 +52,7 @@ const ChatItem = ({ chat }) => {
     socket.on("updatedChatLastMessage", (data) => {
       if (chat._id !== data._id) return;
       setUnreadMessages((prev) => prev + 1);
-      getMessageByid(data.lastMessage).then((message) => {
+      getMessageByid(data.lastMessage,session.token).then((message) => {
         setLastMessage(message);
       });
     });
@@ -59,7 +62,7 @@ const ChatItem = ({ chat }) => {
     });
     return () => socket.disconnect();
   }, []);
-  const readMessages = () => updateUnreadMessages(chat._id);
+  const readMessages = () => updateUnreadMessages(chat._id,session.token);
   const hasUnreadMessages = () => {
     if (unreadMessages > 0) return "text-green-mssg";
     else return "text-gray-date";
