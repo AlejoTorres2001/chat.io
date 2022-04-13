@@ -14,7 +14,7 @@ const ChatList = () => {
   const deleteChat = (c) => setChats(prevC => prevC.filter(chat => chat._id !== c._id));
 
   useEffect(() => {
-    getUsersChats(userId,session.token).then(chats => setChats(chats))
+    getUsersChats(session.userId).then(chats => setChats(chats))
     const socket = socketIOClient(routes.URL);
     socket.on('newChat', addChat);
     socket.on('deletedChat', deleteChat);

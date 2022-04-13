@@ -20,8 +20,7 @@ const ChatItem = ({ chat }) => {
   const resolveChatName = async (chat, userId) => {
     if (!chat.name) {
       const user = await getUserById(
-        getOtherUser(chat.users, userId),
-        session.token
+        getOtherUser(chat.users, userId)
       );
       setChatName(user.name);
       return;
@@ -31,8 +30,8 @@ const ChatItem = ({ chat }) => {
   const resolveChatImage = async (chat, userId) => {
     if (!chat.image) {
       const user = await getUserById(
-        getOtherUser(chat.users, userId),
-        session.token
+        getOtherUser(chat.users, userId)
+        
       );
       setChatImage(user.image);
       return;
@@ -41,7 +40,7 @@ const ChatItem = ({ chat }) => {
   };
   const resolveLastMessage = async (chat) => {
     if (!chat.lastMessage) return;
-    const message = await getMessageByid(chat.lastMessage, session.token);
+    const message = await getMessageByid(chat.lastMessage);
     setLastMessage(message);
   };
   useEffect(() => {
@@ -58,7 +57,7 @@ const ChatItem = ({ chat }) => {
     socket.on("updatedChatLastMessage", (data) => {
       if (chat._id !== data._id) return;
       setUnreadMessages((prev) => prev + 1);
-      getMessageByid(data.lastMessage, session.token).then((message) => {
+      getMessageByid(data.lastMessage).then((message) => {
         setLastMessage(message);
       });
     });
@@ -68,7 +67,7 @@ const ChatItem = ({ chat }) => {
     });
     return () => socket.disconnect();
   }, []);
-  const readMessages = () => updateUnreadMessages(chat._id, session.token);
+  const readMessages = () => updateUnreadMessages(chat._id);
 
   const hasUnreadMessages = () => {
     if (unreadMessages > 0) return "text-green-mssg";
