@@ -10,8 +10,9 @@ const port = 3000;
 const server = require("http").Server(app);
 const { connectDb } = require("./db");
 const { connect: connectToSocket, socket } = require("./socket");
+
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: process.env.NODE_ENV !== "development"? 'http://localhost:3001' : "",
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }))
