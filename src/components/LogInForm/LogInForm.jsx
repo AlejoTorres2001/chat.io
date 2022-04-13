@@ -10,7 +10,7 @@ const LogInForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const response = await logIn(username, password);
-    setSession(response?.data?.user)
+    if(response?.data?.auth)setSession(response?.data?.user)
 }
   return (
     <div className="flex items-center  justify-center bg-gray-darker h-screen ">
