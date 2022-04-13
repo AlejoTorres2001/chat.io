@@ -47,13 +47,11 @@ const useChat = (chat, userId) => {
     setUnreadMessages(chat.unreadMessages);
   }, []);
   const updatedChat = (data) => {
-    console.log(data);
     if (chat._id !== data._id) return;
     resolveChatName(data, userId);
     resolveChatImage(data, userId);
   };
   const updatedChatLastMessage = (data) => {
-    console.log("hola");
     if (chat._id !== data._id) return;
     setUnreadMessages((prev) => prev + 1);
     getMessageByid(data.lastMessage).then((message) => {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import socketIOClient from "socket.io-client";
 import sessionState from "./atoms/sessionAtom";
-import Chat from "./components/Chat/Chat";
+import ChatContainer from "./components/Chat/ChatContainer";
 import LogInForm from "./components/LogInForm/LogInForm";
 import SideBar from "./components/SideBar/SideBar";
 import routes from "./endpoints";
@@ -35,7 +35,11 @@ function App() {
       {isLoggedIn ? (
         <div className="grid grid-cols-[0.3fr,1fr]">
           <SideBar></SideBar>
-          <Chat></Chat>
+          <ChatContainer>
+            {/* ChatHeader */}
+            {/* Chat */}
+            {/* ChatInputBar */}
+          </ChatContainer>
         </div>
       ) : (
         <LogInForm setIsLoggedIn={setIsLoggedIn} />
