@@ -10,7 +10,15 @@ const {
   checkIfUserExists,
 } = require("./controller");
 const { createToken,validateToken } = require("../../jwt");
+router.get("/whoami",validateToken, (req, res) => {
+  getUser(req.userId).then((user) => {
+    res.json({
+      auth: true,
+      user: {id: user.id, username: user.username},
+    });
 
+  })
+});
 router.post("/register", function (req, res) {
   const { username, password } = req.body;
   bcrypt.hash(password, 10).then((hash) => {
