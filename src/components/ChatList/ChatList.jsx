@@ -1,25 +1,21 @@
 import { useEffect } from "react";
 import ChatItem from "../ChatItem/ChatItem";
-import getUsersChats from "../../functions/getUsersChats";
-import socketIOClient from "socket.io-client";
 import routes from "../../endpoints";
 import { useRecoilState } from "recoil";
 import sessionState from "../../atoms/sessionAtom";
 import chatsState from "../../atoms/chatsAtom";
-
+import useChats from "../../hooks/useChats";
+import socketIOClient from "socket.io-client";
+import useSocket from "../../hooks/useSocket";
 const ChatList = () => {
   const [chats, setChats] = useRecoilState(chatsState);
   const [session, setSession] = useRecoilState(sessionState);
-  const addChat = (c) => setChats((prevC) => [...prevC, c]);
-  const deleteChat = (c) =>
-    setChats((prevC) => prevC.filter((chat) => chat._id !== c._id));
-
+  const [addChat,deleteChat,fetchChats] = useChats(chats,setChats,session);
+  const [socket]= useSocket(routes.URL)
   useEffect(() => {
-    getUsersChats(session.id).then((chats) => setChats(chats));
-    const socket = socketIOClient(routes.URL);
+    fetchChats();
     socket.on("newChat", addChat);
     socket.on("deletedChat", deleteChat);
-    return () => socket.disconnect();
   }, []);
   return (
     <div className="flex flex-col h-full">
