@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import socketIOClient from "socket.io-client";
@@ -8,13 +7,12 @@ import LogInForm from "./components/LogInForm/LogInForm";
 import SideBar from "./components/SideBar/SideBar";
 import routes from "./endpoints";
 import validateSession from "./functions/validateSession";
-const ENDPOINT = "http://localhost:3000";
 function App() {
   const [session, setSession] = useRecoilState(sessionState);
   const [isLoggedIn, setIsLoggedIn] = useState(!!sessionState.id);
   const [response, setResponse] = useState({});
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
+    const socket = socketIOClient(routes.URL);
     socket.on("message", (data) => {
       setResponse(data);
     });
