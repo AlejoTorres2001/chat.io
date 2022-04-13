@@ -45,6 +45,7 @@ router.post("/login", async function (req, res) {
   if (!user) {
     res.status(400).json({
       message: "User does not exist",
+      auth:false,
     });
   } else {
     bcrypt.compare(password, user.password).then((match) => {
@@ -52,12 +53,17 @@ router.post("/login", async function (req, res) {
         const accesToken = createToken(user)
         res.cookie("access_token", accesToken, {
           maxAge: 60*60*1000,
+          sameSite:'none', //?Should work on prod bc will be 2 different domains
           httpOnly: true,
+          secure: true,
         })
         res.status(200).json({
-          message: "User logged in",});
+          auth: true,
+          user:{username:user.username,id:user._id},
+          message: "User logged in"});
       } else {
         res.status(400).json({
+          auth: false,
           message: "Wrong password",
         });
       }
