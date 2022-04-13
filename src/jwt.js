@@ -14,7 +14,7 @@ const createToken = (user) => {
 
 
 const validateToken = (req, res, next) => {
-  const token = req.headers["x-access-token"]
+  const token = req.cookies["access_token"];
   if (!token) {
     return res.status(401).json({
       message: "No token provided",
