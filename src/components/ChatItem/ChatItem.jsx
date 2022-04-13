@@ -24,7 +24,7 @@ const ChatItem = ({ chat }) => {
         </div>
         <div className="flex ">
           <span
-            className={`ml-auto mt-[-15px] mr-[5px] sm:mr-[5px] lg:mr-0 text-xs ${hasUnreadMessages()} `}
+            className={`ml-auto mt-[-15px] mr-[9px] sm:mr-[9px] lg:mr-8px text-xs ${hasUnreadMessages()} `}
           >
             {lastMessage.createdAt && (
               <TimeAgo datetime={lastMessage.createdAt} locale="en" />
