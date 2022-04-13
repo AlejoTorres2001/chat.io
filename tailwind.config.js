@@ -16,8 +16,10 @@ module.exports = {
         'white-mssg':'#E9EDEF',
         'gray-placeholder':'#8696A0',
         'gray-date':'#8696A0',
+        'gray-scrollbar':'#374045',
       },
     }
   },
-  plugins: [],
+   
+  plugins: [ require('tailwind-scrollbar')],
 }
