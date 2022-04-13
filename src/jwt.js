@@ -14,8 +14,7 @@ const createToken = (user) => {
 
 
 const validateToken = (req, res, next) => {
-  const token = req.cookies["access_token"];
-  console.log("token es",token);
+  const token = req.headers["x-access-token"]
   if (!token) {
     return res.status(401).json({
       message: "No token provided",
@@ -30,6 +29,7 @@ const validateToken = (req, res, next) => {
     } 
 }catch (err) {
     return res.status(401).json({
+      auth: false,
       message: "Invalid token",
     });
   }
