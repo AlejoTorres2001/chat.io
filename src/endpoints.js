@@ -28,7 +28,7 @@ const routes =  {
     login: url+'/users/login',
     logout: url+'/users/logout',
     register: url+'/users/register',
-    isLoggedIn: url+'/users/validate',
+    validateSession: url+'/users/whoami',
   }
 
 }

@@ -1,31 +1,29 @@
-import axios from "axios";
-import { useState } from "react";
-import { useRecoilState } from "recoil";
-import sessionState from "../../atoms/sessionAtom";
-import routes from "../../endpoints";
+import { useState, useEffect } from "react";
 import logIn from "../../functions/logIn";
-import { useEffect } from "react";
+import sessionState from "../../atoms/sessionAtom";
+import { useRecoilState } from "recoil";
+import singUp from "../../functions/signUp";
 
-const LogInForm = () => {
+const LogInForm = ({ setIsLoggedIn }) => {
+  const [isRegistration, setIsRegistration] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isRegistration, setIsRegistration] = useState(false);
   const [session, setSession] = useRecoilState(sessionState);
   const [errors, setErrors] = useState([]);
   const [success, setSuccess] = useState(false);
   useEffect(() => {
-    setErrors([]);
-  }, [username, password]);
-
+    const time = setTimeout(() => {
+      setErrors([]);
+      setSuccess(false);
+    }, 3000);
+    return () => clearTimeout(time);
+  }, [errors, success]);
   const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await logIn(username, password);
-    if (res?.data?.auth) {
-      const session = {
-        user: res.data.user,
-        token: res.data.token,
-      };
-      setSession(session);
+    const response = await logIn(username, password);
+    if (response?.data?.auth) {
+      setSession(response?.data?.user);
+      setIsLoggedIn(true);
       setSuccess(false);
       return;
     }
@@ -33,16 +31,13 @@ const LogInForm = () => {
   };
   const handleRegister = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(routes.users.createUser, {
-        username,
-        password,
-      });
-    } catch (error) {
-      return setErrors([...errors, "User already exists"]);
+    const response = await singUp(username, password);
+    if (response?.correct) {
+      setIsRegistration(false);
+      setSuccess(true);
+      return;
     }
-    setIsRegistration(false);
-    setSuccess(true);
+    setErrors([...errors, response.error]);
   };
   return (
     <div className="flex items-center  justify-center bg-gray-darker h-screen ">
