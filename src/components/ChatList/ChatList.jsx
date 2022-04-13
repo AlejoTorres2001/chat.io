@@ -17,7 +17,7 @@ const ChatList = () => {
     socket.on("deletedChat", deleteChat);
   }, []);
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full overflow-y-auto scrollbar scrollbar-thumb-gray-scrollbar scrollbar-track-gray scrollbar-thin scroll-smooth scrollba ">
       {chats.map((chat) => {
         return <ChatItem key={chat._id} chat={chat} />;
       })}
