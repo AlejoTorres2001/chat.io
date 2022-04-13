@@ -11,11 +11,15 @@ const {
 } = require("./controller");
 const { createToken, validateToken } = require("../../jwt");
 
-router.get("/validate", validateToken, function (req, res) {
-  res.json({
-    auth:true
+router.get("/whoami",validateToken, (req, res) => {
+  getUser(req.userId).then((user) => {
+    res.json({
+      auth: true,
+      user: {id: user.id, username: user.username},
+    });
+
   })
-})
+});
 router.post("/register", function (req, res) {
   const { username, password } = req.body;
   bcrypt.hash(password, 10).then((hash) => {
@@ -59,20 +63,26 @@ router.post("/login", async function (req, res) {
   } else {
     bcrypt.compare(password, user.password).then((match) => {
       if (match) {
-        const accesToken = createToken(user);
+        const accesToken = createToken(user)
+        res.cookie("access_token", accesToken, {
+          maxAge: 60*60*1000,
+          sameSite:'none', //?Should work on prod bc will be 2 different domains
+          httpOnly: true,
+          secure: true,
+        })
         res.status(200).json({
           auth: true,
-          token: accesToken,
-          user:{username:user.username,id:user._id,image:user.image},
-        });
-      } else {
-        res.status(400).json({
-          message: "Wrong password",
-        });
-      }
-    });
-  }
-});
+          user:{username:user.username,id:user._id},
+          message: "User logged in"});
+        } else {
+          res.status(400).json({
+            auth: false,
+            message: "Wrong password",
+          });
+        }
+      });
+    }
+  });
 router.put("/:id", validateToken, async function (req, res) {
   const id = req.params.id;
   const user = await getUser(id);
