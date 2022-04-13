@@ -8,12 +8,9 @@ import SideBar from "./components/SideBar/SideBar";
 import routes from "./endpoints";
 import validateSession from "./functions/validateSession";
 function App() {
-  const [session, setSession] = useRecoilState(sessionState);
   const [isLoggedIn, setIsLoggedIn] = useState(!!sessionState.id);
   const [response, setResponse] = useState({});
   const [session, setSession] = useRecoilState(sessionState);
-  const [checkAuth] = useIsLoggedIn();
-  const [isLogged, setIsLogged] = useState(false);
   useEffect(() => {
     const socket = socketIOClient(routes.URL);
     socket.on("message", (data) => {
