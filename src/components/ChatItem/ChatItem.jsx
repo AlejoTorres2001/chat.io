@@ -1,73 +1,12 @@
-import { useState, useEffect } from "react";
-const userId = "62489759e7cffb86b5ea0a86";
-import getUserById from "../../functions/getUserById";
 import TimeAgo from "timeago-react";
-import socketIOClient from "socket.io-client";
-import routes from "../../endpoints";
-import getMessageByid from "../../functions/getMessageById";
-import updateUnreadMessages from "../../functions/updateUnreadMessages";
 import { useRecoilState } from "recoil";
 import sessionState from "../../atoms/sessionAtom";
-const getOtherUser = (users, SessionUser) => {
-  return users.filter((user) => user !== SessionUser)[0];
-};
+import useChat from "../../hooks/useChat";
+
 const ChatItem = ({ chat }) => {
   const [session, setSession] = useRecoilState(sessionState);
-  const [chatName, setChatName] = useState("");
-  const [chatImage, setChatImage] = useState("");
-  const [unreadMessages, setUnreadMessages] = useState(0);
-  const [lastMessage, setLastMessage] = useState({});
-  const resolveChatName = async (chat, userId) => {
-    if (!chat.name) {
-      const user = await getUserById(
-        getOtherUser(chat.users, userId)
-      );
-      setChatName(user.name);
-      return;
-    }
-    setChatName(chat.name);
-  };
-  const resolveChatImage = async (chat, userId) => {
-    if (!chat.image) {
-      const user = await getUserById(
-        getOtherUser(chat.users, userId)
-        
-      );
-      setChatImage(user.image);
-      return;
-    }
-    setChatImage(chat.image);
-  };
-  const resolveLastMessage = async (chat) => {
-    if (!chat.lastMessage) return;
-    const message = await getMessageByid(chat.lastMessage);
-    setLastMessage(message);
-  };
-  useEffect(() => {
-    const socket = socketIOClient(routes.URL);
-    setUnreadMessages(chat.unreadMessages);
-    resolveChatName(chat, userId);
-    resolveChatImage(chat, userId);
-    resolveLastMessage(chat);
-    socket.on("updatedChat", (data) => {
-      if (chat._id !== data._id) return;
-      resolveChatName(data, userId);
-      resolveChatImage(data, userId);
-    });
-    socket.on("updatedChatLastMessage", (data) => {
-      if (chat._id !== data._id) return;
-      setUnreadMessages((prev) => prev + 1);
-      getMessageByid(data.lastMessage).then((message) => {
-        setLastMessage(message);
-      });
-    });
-    socket.on("readMessages", (data) => {
-      if (chat._id !== data._id) return;
-      setUnreadMessages(0);
-    });
-    return () => socket.disconnect();
-  }, []);
-  const readMessages = () => updateUnreadMessages(chat._id);
+  const [chatName, chatImage, unreadMessages, lastMessage, readMessages] =
+    useChat(chat, session.id);
 
   const hasUnreadMessages = () => {
     if (unreadMessages > 0) return "text-green-mssg";

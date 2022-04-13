@@ -5,7 +5,6 @@ import { useRecoilState } from "recoil";
 import sessionState from "../../atoms/sessionAtom";
 import chatsState from "../../atoms/chatsAtom";
 import useChats from "../../hooks/useChats";
-import socketIOClient from "socket.io-client";
 import useSocket from "../../hooks/useSocket";
 const ChatList = () => {
   const [chats, setChats] = useRecoilState(chatsState);
