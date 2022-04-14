@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import socketIOClient from "socket.io-client";
 import sessionState from "./atoms/sessionAtom";
-import ChatContainer from "./components/Chat/ChatContainer";
+import ChatContainer from "./components/ChatContainer/ChatContainer";
+import ChatHeader from "./components/ChatHeader/ChatHeader";
 import LogInForm from "./components/LogInForm/LogInForm";
 import SideBar from "./components/SideBar/SideBar";
 import routes from "./endpoints";
@@ -36,7 +37,7 @@ function App() {
         <div className="grid grid-cols-[0.3fr,1fr]">
           <SideBar></SideBar>
           <ChatContainer>
-            {/* ChatHeader */}
+            <ChatHeader/>
             {/* Chat */}
             {/* ChatInputBar */}
           </ChatContainer>
