@@ -29,6 +29,7 @@ const routes =  {
     logout: url+'/users/logout',
     register: url+'/users/register',
     validateSession: url+'/users/whoami',
+    getUserInfo:url+'/users/userInfo/:id',
   }
 
 }
