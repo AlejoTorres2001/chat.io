@@ -17,7 +17,7 @@ const ChatHeader = () => {
       <div className="bg-gray-light h-[56px] min-w-[700px] whitespace-nowrap flex align-middle justify-center items-center">
         <div className="ml-1">
           <img
-            src="https://pps.whatsapp.net/v/t61.24694-24/157899877_3021327664799914_4032486813147854536_n.jpg?stp=dst-jpg_s96x96&ccb=11-4&oh=126b8ec4bd18d013b5e57f3a568ca096&oe=62540950"
+            src={selectedChat.image}
             alt=""
             className="mr-auto m-2 w-[40px] h-[40px] rounded-full"
           />
