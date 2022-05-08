@@ -11,6 +11,19 @@ const {
 } = require("./controller");
 const { createToken, validateToken } = require("../../jwt");
 
+router.get("/userInfo/:userId", validateToken, (req,res)=>{
+  getUser(req.params.userId).then((user)=>{
+    res.json({
+      username: user.username,
+      image: user.image,
+    });
+  }).catch((err)=>{
+    res.status(500).json({
+      message: err.message,
+    });
+  })
+});
+
 router.get("/whoami",validateToken, (req, res) => {
   getUser(req.userId).then((user) => {
     res.json({
