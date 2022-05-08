@@ -18,6 +18,9 @@ function getUserMessages(userId) {
 function getMessage(messageId) {
   return Model.findById(messageId);
 }
+function getChatMessages(chatId) {
+  return Model.find({ chat: chatId });
+}
 
 module.exports = {
   addMessage,
@@ -25,4 +28,5 @@ module.exports = {
   getMessages,
   getUserMessages,
   getMessage,
+  getChatMessages,
 };

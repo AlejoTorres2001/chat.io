@@ -7,6 +7,7 @@ const {
   getMessages,
   getUserMessages,
   getMessage,
+  getChatMessages,
 } = require("./controller");
 const {updateChatLastMessage,addUnreadMessage} = require("../chats/controller");
 const { validateToken } = require("../../jwt");
@@ -78,6 +79,15 @@ router.get("/message/:id",validateToken, function (req, res) {
       res.status(500);
       res.send(err);
     });
+})
+router.get("/chat/:chatId",validateToken,function (req,res){
+  const chatId = req.params.chatId;
+  getChatMessages(chatId).then((messages)=>{
+    res.send(messages);
+  }).catch((err)=>{
+    res.status(500);
+    res.send(err);
+  })
 })
 
 module.exports = router;

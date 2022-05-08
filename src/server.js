@@ -6,13 +6,13 @@ const users = require("./components/users/routes");
 const messages = require("./components/messages/routes");
 const chats = require("./components/chats/routes");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const server = require("http").Server(app);
 const { connectDb } = require("./db");
 const { connect: connectToSocket, socket } = require("./socket");
 
 app.use(cors({
-  origin: process.env.NODE_ENV !== "development"? 'http://localhost:3001' : "",
+  origin: process.env.NODE_ENV !== "production"? 'http://localhost:3001' : "",
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }))

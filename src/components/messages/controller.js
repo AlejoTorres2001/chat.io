@@ -35,10 +35,18 @@ function getMessage(messageId) {
   return store.getMessage(messageId);
 }
 
+function getChatMessages(chatId) {
+  if (!chatId) {
+    return Promise.reject("Chat id is required");
+  }
+  return store.getChatMessages(chatId);
+}
+
 module.exports = {
   addMessage,
   deleteMessage,
   getMessages,
   getUserMessages,
-  getMessage
+  getMessage,
+  getChatMessages,
 };
