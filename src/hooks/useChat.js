@@ -45,6 +45,9 @@ const useChat = (chat, userId) => {
     resolveChatImage();
     resolveLastMessage();
     setUnreadMessages(chat.unreadMessages);
+    return () => {
+      socket.disconnect();
+    }
   }, []);
   const updatedChat = (data) => {
     if (chat._id !== data._id) return;
