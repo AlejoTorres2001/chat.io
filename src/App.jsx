@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import socketIOClient from "socket.io-client";
 import sessionState from "./atoms/sessionAtom";
+import ChatBody from "./components/ChatBody/ChatBody";
 import ChatContainer from "./components/ChatContainer/ChatContainer";
 import ChatHeader from "./components/ChatHeader/ChatHeader";
+import ChatInputBar from "./components/ChatInputBar/ChatInputBar";
 import LogInForm from "./components/LogInForm/LogInForm";
 import SideBar from "./components/SideBar/SideBar";
 import routes from "./endpoints";
@@ -38,8 +40,8 @@ function App() {
           <SideBar></SideBar>
           <ChatContainer>
             <ChatHeader/>
-            {/* Chat */}
-            {/* ChatInputBar */}
+            <ChatBody/>
+            <ChatInputBar/>
           </ChatContainer>
         </div>
       ) : (

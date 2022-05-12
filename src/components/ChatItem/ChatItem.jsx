@@ -2,19 +2,25 @@ import TimeAgo from "timeago-react";
 import { useRecoilState } from "recoil";
 import sessionState from "../../atoms/sessionAtom";
 import useChat from "../../hooks/useChat";
+import selectedChatAtom from "../../atoms/selectedChatAtom";
 
 const ChatItem = ({ chat }) => {
   const [session, setSession] = useRecoilState(sessionState);
   const [chatName, chatImage, unreadMessages, lastMessage, readMessages] =
     useChat(chat, session.id);
+  const [selectedChat,setSelectedChat]=useRecoilState(selectedChatAtom)
 
   const hasUnreadMessages = () => {
     if (unreadMessages > 0) return "text-green-mssg";
     else return "text-gray-date";
   };
+  const openChat = () => {
+    readMessages();
+    setSelectedChat(chat);
+  }
   return (
     <div
-      onClick={readMessages}
+      onClick={openChat}
       className="flex px-2 py-3 border-b border-gray-selected h-auto  align-middle hover:bg-gray-selected "
     >
       <img src={chatImage} alt="chat_img" className="rounded-full  w-11 h-11" />

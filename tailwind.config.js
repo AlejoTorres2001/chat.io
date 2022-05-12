@@ -17,6 +17,7 @@ module.exports = {
         'gray-placeholder':'#8696A0',
         'gray-date':'#8696A0',
         'gray-scrollbar':'#374045',
+        'gray-message-bar':'#2A3942',
       },
     }
   },

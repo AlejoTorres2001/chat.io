@@ -17,6 +17,7 @@ const routes =  {
     getMessages: url+'/messages',
     getUsersMessages: url+'/messages/:userId',
     getMessage: url+'/messages/message/:id',
+    getChatMessages: url+'/messages/chat/:chatId',
   },
   users:{
     createUser: url+'/users/register',
@@ -29,6 +30,7 @@ const routes =  {
     logout: url+'/users/logout',
     register: url+'/users/register',
     validateSession: url+'/users/whoami',
+    getUserInfo:url+'/users/userInfo/:id',
   }
 
 }
