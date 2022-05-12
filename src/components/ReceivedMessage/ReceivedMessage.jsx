@@ -1,10 +1,9 @@
 
 
-const ReceivedMessage = (message) => {
-  console.log(message)
+const ReceivedMessage = ({message}) => {
   return (
     <div className="bg-green-300">
-      asdasd
+        {message.message}
     </div>
   )
 }
