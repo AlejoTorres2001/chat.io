@@ -15,7 +15,7 @@ const { validateToken } = require("../../jwt");
 router.post("/",validateToken, function (req, res) {
   const messageText = req.body.message;
   const fromUserId = req.body.fromUserId;
-  const chatId = req.body?.chatId ? req.body.chatId : null;
+  const chatId = req.body.chatId;
   addMessage(messageText, fromUserId, chatId)
     .then((message) => {
       updateChatLastMessage(chatId, message._id).then(
