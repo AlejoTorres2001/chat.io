@@ -23,6 +23,7 @@ const ChatHeader = () => {
           />
         </div>
         <div className="flex flex-col justify-center ml-3">
+        <p className="font-medium text-white-mssg">{selectedChat.name}</p>
           <p className="text-sm text-gray-date">
             {chatUsers.map((user) => user.username).join(", ")}
           </p>
