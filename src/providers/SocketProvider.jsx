@@ -2,7 +2,7 @@ import { useEffect, useState, createContext } from "react";
 import { io } from "socket.io-client";
 import routes from "../endpoints";
 
-const webSocket = new io(routes.URL);
+const webSocket = io(routes.URL);
 const SOCKET_RECONNECTION_TIMEOUT = 5000;
 export const SocketContext = createContext(webSocket);
 
