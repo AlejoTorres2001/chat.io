@@ -18,6 +18,10 @@ module.exports = {
         'gray-date':'#8696A0',
         'gray-scrollbar':'#374045',
         'gray-message-bar':'#2A3942',
+        'gray-message-received':'#1F2C33',
+        'green-message-sent':'#015C4B',
+        'gray-timestamp':'#909699',
+        'white-message-text':'#C2C7CA',
       },
     }
   },
