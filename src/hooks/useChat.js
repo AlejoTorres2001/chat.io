@@ -1,4 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useRecoilState } from "recoil";
+import selectedChatAtom from "../atoms/selectedChatAtom";
 import getMessageByid from "../functions/getMessageById";
 import getUserById from "../functions/getUserById";
 import updateUnreadMessages from "../functions/updateUnreadMessages";
@@ -6,11 +8,14 @@ import { useSocket } from "./useSocket";
 
 const useChat = (chat, userId) => {
   const socket = useSocket();
-
+  const [selectedChat, setselectedChat] = useRecoilState(selectedChatAtom);
   const [chatName, setChatName] = useState("");
   const [chatImage, setChatImage] = useState("");
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [lastMessage, setLastMessage] = useState({});
+  const latestSelectedChat = useRef(selectedChat);
+  const isSameChat = () => latestSelectedChat.current._id === chat._id;
+
   const getOtherUser = (users, SessionUser) => {
     return users.filter((user) => user !== SessionUser)[0];
   };
@@ -43,16 +48,19 @@ const useChat = (chat, userId) => {
   }, []);
   const updatedChatLastMessage = useCallback((data) => {
     if (chat._id !== data._id) return;
-    setUnreadMessages((prev) => prev + 1);
+    if (!isSameChat()) setUnreadMessages((prev) => prev + 1);
+
     getMessageByid(data.lastMessage).then((message) => {
       setLastMessage(message);
     });
   }, []);
-
   const readMessage = useCallback((data) => {
     if (chat._id !== data._id) return;
     setUnreadMessages(0);
   }, []);
+  useEffect(() => {
+    latestSelectedChat.current = selectedChat;
+  }, [selectedChat]);
   useEffect(() => {
     socket.on("updatedChat", updatedChat);
     socket.on("updatedChatLastMessage", updatedChatLastMessage);
