@@ -35,7 +35,6 @@ const ChatBody = () => {
         getChatMessages(selectedChat._id).then((data) => {
           setMessages(data);
         });
-      lastMessage.current.scrollIntoView();
     }
   };
   useEffect(() => {
