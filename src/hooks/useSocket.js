@@ -1,15 +1,9 @@
-import { useEffect, useRef } from "react";
-import io from "socket.io-client";
 
-const useSocket = (...args) => {
-  const { current: socket } = useRef(io(...args));
-  useEffect(() => {
-    return () => {
-      socket && socket.removeAllListeners();
-      socket && socket.close();
-    };
-  }, [socket]);
-  return [socket];
+import { useContext } from "react";
+import { SocketContext } from "../providers/SocketProvider";
+
+export const useSocket = () => {
+  const socket = useContext(SocketContext);
+
+  return socket;
 };
-
-export default useSocket;
