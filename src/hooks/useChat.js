@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
-import routes from "../endpoints";
+import { useState, useEffect, useCallback } from "react";
 import getMessageByid from "../functions/getMessageById";
 import getUserById from "../functions/getUserById";
 import updateUnreadMessages from "../functions/updateUnreadMessages";
-import useSocket from "./useSocket";
+import { useSocket } from "./useSocket";
 
 const useChat = (chat, userId) => {
-  const [socket] = useSocket(routes.URL);
+  const socket = useSocket();
 
   const [chatName, setChatName] = useState("");
   const [chatImage, setChatImage] = useState("");
@@ -37,6 +36,23 @@ const useChat = (chat, userId) => {
     const message = await getMessageByid(chat.lastMessage);
     setLastMessage(message);
   };
+  const updatedChat = useCallback((data) => {
+    if (chat._id !== data._id) return;
+    resolveChatName(data, userId);
+    resolveChatImage(data, userId);
+  }, []);
+  const updatedChatLastMessage = useCallback((data) => {
+    if (chat._id !== data._id) return;
+    setUnreadMessages((prev) => prev + 1);
+    getMessageByid(data.lastMessage).then((message) => {
+      setLastMessage(message);
+    });
+  }, []);
+
+  const readMessage = useCallback((data) => {
+    if (chat._id !== data._id) return;
+    setUnreadMessages(0);
+  }, []);
   useEffect(() => {
     socket.on("updatedChat", updatedChat);
     socket.on("updatedChatLastMessage", updatedChatLastMessage);
@@ -46,25 +62,18 @@ const useChat = (chat, userId) => {
     resolveLastMessage();
     setUnreadMessages(chat.unreadMessages);
     return () => {
-      socket.disconnect();
-    }
-  }, []);
-  const updatedChat = (data) => {
-    if (chat._id !== data._id) return;
-    resolveChatName(data, userId);
-    resolveChatImage(data, userId);
-  };
-  const updatedChatLastMessage = (data) => {
-    if (chat._id !== data._id) return;
-    setUnreadMessages((prev) => prev + 1);
-    getMessageByid(data.lastMessage).then((message) => {
-      setLastMessage(message);
-    });
-  };
-  const readMessage = (data) => {
-    if (chat._id !== data._id) return;
-    setUnreadMessages(0);
-  };
+      socket.off("updatedChat", updatedChat);
+      socket.off("updatedChatLastMessage", updatedChatLastMessage);
+      socket.off("readMessages", readMessage);
+    };
+  }, [
+    socket,
+    updatedChat,
+    updatedChatLastMessage,
+    readMessage,
+    chat.unreadMessages,
+  ]);
+
   const readMessages = () => updateUnreadMessages(chat._id);
 
   return [chatName, chatImage, unreadMessages, lastMessage, readMessages];
