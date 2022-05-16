@@ -41,7 +41,7 @@ const LogInForm = ({ setIsLoggedIn }) => {
   };
   return (
     <div className="flex items-center  justify-center bg-gray-darker h-screen ">
-      <div className="flex flex-col align-middle   bg-gray-dark w-1/2 h-1/2 rounded-md">
+      <form className="flex flex-col align-middle   bg-gray-dark w-1/2 h-1/2 rounded-md">
         {errors.length > 0 && (
           <div className="flex flex-col items-center bg-gray-selected text-red-600 rounded-md">
             {errors.map((error, index) => {
@@ -108,7 +108,7 @@ const LogInForm = ({ setIsLoggedIn }) => {
             </p>
           )}
         </div>
-      </div>
+      </form>
     </div>
   );
 };
