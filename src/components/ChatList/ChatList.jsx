@@ -20,7 +20,7 @@ const ChatList = () => {
     }
   }, [socket]);
   return (
-    <div className="flex flex-col h-full overflow-y-auto scrollbar-thumb-gray-scrollbar scrollbar-track-gray scrollbar-thin scroll-smooth">
+    <div className="flex flex-col h-full overflow-y-auto overflow-x-hidden scrollbar-thumb-gray-scrollbar scrollbar-track-gray scrollbar-thin scroll-smooth">
       {chats.map((chat) => {
         return <ChatItem key={chat._id} chat={chat} />;
       })}

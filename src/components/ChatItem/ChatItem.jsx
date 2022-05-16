@@ -30,7 +30,7 @@ const ChatItem = ({ chat }) => {
         </div>
         <div className="flex ">
           <span
-            className={`ml-auto mt-[-15px] mr-[9px] sm:mr-[9px] lg:mr-8px text-xs ${hasUnreadMessages()} `}
+            className={`ml-auto mt-[-15px] mr-[9px] lg:mr-[40px] sm:mr-[20px] text-xs ${hasUnreadMessages()} `}
           >
             {lastMessage.createdAt && (
               <TimeAgo datetime={lastMessage.createdAt} locale="en" />
@@ -40,7 +40,7 @@ const ChatItem = ({ chat }) => {
         <div className="flex align-middle text-gray-date whitespace-nowrap overflow-hidden text-ellipsis w-[230px] sm:w-[230px] lg:w-[350px] ">
           {lastMessage.message ? lastMessage.message : "start a conversation"}
           {unreadMessages > 0 && (
-            <span className="m-1 w-5 h-5 inline-block rounded-[50%] ml-auto text-black text-sm bg-green-mssg text-center">
+            <span className="m-1 w-5 h-5 inline-block rounded-[50%] ml-auto lg:mr-[40px] sm:mr-[20px] mr-[21px] text-black text-sm bg-green-mssg text-center">
               {unreadMessages}
             </span>
           )}
