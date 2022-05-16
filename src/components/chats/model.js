@@ -20,7 +20,12 @@ const chatSchema = new Schema({
   unreadMessages: {
     type: Number,
     required: false,
-  }
+  },
+  readBy:[{
+    type: Schema.ObjectId,
+    ref: "User",
+    required: false,
+  }]
 });
 
 const model = mongoose.model("chat", chatSchema);

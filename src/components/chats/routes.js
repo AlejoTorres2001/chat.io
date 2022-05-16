@@ -10,7 +10,8 @@ const {
   getChat,
   getUserChats,
   updateImage,
-  removeUnreadMessages
+  removeUnreadMessages,
+  addReader
 } = require("./controller");
 
 router.get("/",validateToken, function (req, res) {
@@ -104,15 +105,28 @@ router.put("/image",validateToken, function (req, res) {
 })
 
 router.put("/readmessages/:id",validateToken, function (req, res) {
-  const id = req.params.id;
-  removeUnreadMessages(id).then((chat) => {
-    socket.io.emit("readMessages", chat);
-    res.send(chat);
+  const chatId = req.params.id;
+  const senderUserId =req.userId;
+  getChat(chatId).then((chat) => {
+    if(!chat.readers.find(senderUserId)){
+        addReader(senderUserId)
+    }
   })
-  .catch((err) => {
-    res.status(500)
-    res.send(err);
-  });
+  //! should add the reader if not already there
+  //! emit event to update ui
+  //! in UI update the number of unread messages only if id is in the reader list
+  //! the number of unread messages should be controlled from the ui independently
+  //! makea provider in the ui with the state of how many unread messages there are per chat, save in cookie, if no cookie, set to []
+  //!all chats load in the cookie at first when log in
+  //! if the chat is not in the cookie, add it
+  // removeUnreadMessages(chatId).then((chat) => {
+  //   socket.io.emit("readMessages", chat);
+  //   res.send(chat);
+  // })
+  // .catch((err) => {
+  //   res.status(500)
+  //   res.send(err);
+  // });
 })
 
 

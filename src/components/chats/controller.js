@@ -67,6 +67,12 @@ function removeUnreadMessages (chatId) {
   }
   return store.removeUnreadMessages(chatId);
 }
+function addReader (chatId, userId) {
+  if (!chatId || !userId) {
+    return Promise.reject("Chat id and user id are required");
+  }
+  return store.addReader(chatId, userId);
+}
 
 module.exports = {
   addChat,
@@ -79,4 +85,5 @@ module.exports = {
   updateChatLastMessage,
   addUnreadMessage,
   removeUnreadMessages,
+  addReader,
 };
