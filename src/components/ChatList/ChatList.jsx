@@ -5,11 +5,25 @@ import sessionState from "../../atoms/sessionAtom";
 import chatsState from "../../atoms/chatsAtom";
 import useChats from "../../hooks/useChats";
 import {useSocket} from "../../hooks/useSocket";
+import searchInputState from "../../atoms/searchInputAtom";
 const ChatList = () => {
   const [chats, setChats] = useRecoilState(chatsState);
   const [session, setSession] = useRecoilState(sessionState);
   const [addChat,deleteChat,fetchChats] = useChats(chats,setChats,session);
+  const [searchInput, setSearchInput] = useRecoilState(searchInputState);
+
   const socket= useSocket()
+  useEffect(() => {
+    if(searchInput===''){
+      fetchChats()
+    }
+    else{
+      setChats(chats.filter(chat=>chat.name.toLowerCase().includes(searchInput.toLowerCase())))
+    }
+  
+    
+  }, [searchInput])
+  
   useEffect(() => {
     fetchChats();
     socket.on("newChat", addChat);
