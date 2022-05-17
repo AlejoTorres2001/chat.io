@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect ,useRef} from "react";
 import ChatItem from "../ChatItem/ChatItem";
 import { useRecoilState } from "recoil";
 import sessionState from "../../atoms/sessionAtom";
@@ -11,14 +11,23 @@ const ChatList = () => {
   const [session, setSession] = useRecoilState(sessionState);
   const [addChat,deleteChat,fetchChats] = useChats(chats,setChats,session);
   const [searchInput, setSearchInput] = useRecoilState(searchInputState);
-
+  const latestSearchInput = useRef(searchInput);
   const socket= useSocket()
+
+  useEffect(() => {
+    latestSearchInput.current = searchInput;
+  }, [searchInput]);
   useEffect(() => {
     if(searchInput===''){
       fetchChats()
     }
     else{
-      setChats(chats.filter(chat=>chat.name.toLowerCase().includes(searchInput.toLowerCase())))
+      try {
+        setChats(chats.filter(chat=>chat.name.toLowerCase().includes(latestSearchInput.current.toLowerCase())))
+        
+      } catch (error) {
+        
+      }
     }
   
     

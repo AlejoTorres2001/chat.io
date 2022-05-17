@@ -1,4 +1,9 @@
+import { useRecoilState } from "recoil";
+import isNewChatState from "../../atoms/isNewChat";
+
 const SideBarHeader = () => {
+  const [isNewChat, setIsNewChat] = useRecoilState(isNewChatState);
+
   return (
     <div className="flex flex-row w-full align-middle justify-end text-gray-icons bg-gray-light ">
       <div className="flex grow  sm:mr-[100px]">
@@ -8,7 +13,7 @@ const SideBarHeader = () => {
           className="mr-auto m-2 w-[40px] h-[40px] rounded-full"
         />
       </div>
-      <div className="flex justify-center align-middle my-1 mx-2 flex-shrink-0 rounded-full hover:bg-gray-selected hover:cursor-pointer h-[40px] w-[40px] items-center">
+      <div className="flex justify-center align-middle my-1 mx-2 flex-shrink-0 rounded-full hover:bg-gray-selected hover:cursor-pointer h-[40px] w-[40px] items-center ">
         <svg
           version="1.1"
           id="ee51d023-7db6-4950-baf7-c34874b80976"
@@ -25,7 +30,7 @@ const SideBarHeader = () => {
           ></path>
         </svg>
       </div>
-      <div className="flex justify-center align-middle my-1 mx-2 flex-shrink-0 rounded-full hover:bg-gray-selected hover:cursor-pointer h-[40px] w-[40px] items-center">
+      <div className={`flex justify-center align-middle my-1 mx-2 flex-shrink-0 rounded-full hover:bg-gray-selected hover:cursor-pointer h-[40px] w-[40px] items-center ${isNewChat ? "bg-gray-selected" : "" }` } onClick={()=>setIsNewChat(!isNewChat)}>
         <svg viewBox="0 0 24 24" width="30" height="40" class="">
           <path
             fill="currentColor"

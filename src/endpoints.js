@@ -25,7 +25,7 @@ const routes =  {
     updateUserImage: url+'/users/image/:id',
     deleteUser: url+'/users/delete/:id',
     getUsers: url+'/users',
-    getUser: url+'/users/:id',
+    getUser: url+'/users/userInfo/:userId',
     login: url+'/users/login',
     logout: url+'/users/logout',
     register: url+'/users/register',
