@@ -108,9 +108,11 @@ router.put("/readmessages/:id",validateToken, function (req, res) {
   const chatId = req.params.id;
   const senderUserId =req.userId;
   getChat(chatId).then((chat) => {
-    if(!chat.readers.find(senderUserId)){
-        addReader(senderUserId)
+    if(!chat.readBy.find((userId) => userId===senderUserId)){
+      addReader(chatId,senderUserId)
     }
+    
+    socket.io.emit("messageRead", chat);
   })
   //! should add the reader if not already there
   //! emit event to update ui

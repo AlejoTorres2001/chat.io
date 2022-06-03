@@ -35,9 +35,9 @@ async function removeUnreadMessages(chatId) {
 async function addReader (chatId, userId) {
 
   const chat = await Model.findById(chatId)
-  const readers = chat.readers
-  if (readers.find(userId)) return Promise.reject("User is already in the readers list")
-  return Model.findByIdAndUpdate(chatId, { readers: [...readers,userId] }, { new: true });
+  const readBy = chat.readBy
+  if (readBy.find((userIdInArray)=>userIdInArray===userId)) return Promise.reject("User is already in the readers list")
+  return Model.findByIdAndUpdate(chatId, { readBy: [...readBy,userId] }, { new: true });
 }
 module.exports={
   addChat,
