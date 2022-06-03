@@ -65,6 +65,7 @@ const useChat = (chat, userId) => {
     socket.on("updatedChat", updatedChat);
     socket.on("updatedChatLastMessage", updatedChatLastMessage);
     socket.on("readMessages", readMessage);
+    socket.on('messageRead',readMessage)
     resolveChatName();
     resolveChatImage();
     resolveLastMessage();
@@ -73,6 +74,7 @@ const useChat = (chat, userId) => {
       socket.off("updatedChat", updatedChat);
       socket.off("updatedChatLastMessage", updatedChatLastMessage);
       socket.off("readMessages", readMessage);
+      socket.off('messageRead',readMessage)
     };
   }, [
     socket,
