@@ -1,11 +1,9 @@
-# Fontend Branch
 
 <div align="center">
-
-![](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)
-![](https://img.shields.io/badge/Maintained%3F-Yes-brightgreen.svg)
   
-**this is the master branch for the react app working as the client in *chat.io***
+# Fontend Branch
+
+  
 
 </div>
 
@@ -13,6 +11,8 @@
 
 ![](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)
 ![](https://img.shields.io/badge/Maintained%3F-Yes-brightgreen.svg)
+**this is the master branch for the react app working as the client in *chat.io***
+  
 
 </div>
 
