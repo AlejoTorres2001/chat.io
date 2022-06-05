@@ -113,6 +113,11 @@ router.put("/readmessages/:id",validateToken, function (req, res) {
     }
     
     socket.io.emit("messageRead", chat);
+  }).catch((err) => {
+    console.log(err)
+    res.status(500)
+    res.send(err);
+
   })
   //! should add the reader if not already there
   //! emit event to update ui
@@ -121,14 +126,6 @@ router.put("/readmessages/:id",validateToken, function (req, res) {
   //! makea provider in the ui with the state of how many unread messages there are per chat, save in cookie, if no cookie, set to []
   //!all chats load in the cookie at first when log in
   //! if the chat is not in the cookie, add it
-  // removeUnreadMessages(chatId).then((chat) => {
-  //   socket.io.emit("readMessages", chat);
-  //   res.send(chat);
-  // })
-  // .catch((err) => {
-  //   res.status(500)
-  //   res.send(err);
-  // });
 })
 
 
