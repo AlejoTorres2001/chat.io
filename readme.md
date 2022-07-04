@@ -52,7 +52,7 @@ Don't forget to **give the project a star ⭐!**
 2. Clone the repository
 
 ```bash
-git clone -b master-backend https://github.com/AlejoTorres2001/code-playground.git
+git clone -b master-backend https://github.com/AlejoTorres2001/chat.io.git
 ```
 
 3. Create your Feature Branch
